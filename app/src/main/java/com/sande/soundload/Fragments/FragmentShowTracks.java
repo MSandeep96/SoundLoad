@@ -28,6 +28,8 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
     RecyclerView recyclerView;
     private TracksAdapter mAdapter;
     private ShowTracksPresenterInterface showTrackPresenter;
+    private boolean isScrollable=true;
+    private boolean loading;
 
     public FragmentShowTracks() {
         // Required empty public constructor
@@ -46,9 +48,28 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
         View mView= inflater.inflate(R.layout.frag_show_tracks, container, false);
         ButterKnife.bind(mView);
         mAdapter=new TracksAdapter(getContext());
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        final LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(isScrollable){
+                    if(dy>0){
+                        int visibleItemCount = linearLayoutManager.getChildCount();
+                        int totalItemCount = linearLayoutManager.getItemCount();
+                        int pastVisibleItems = linearLayoutManager.findFirstVisibleItemPosition();
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            if (!loading) {
+                                loading = true;
+                                showTrackPresenter.hasPaginated();
+                            }
+                        }
+                    }
+                }
+            }
+        });
         showTrackPresenter.getTracks();
         return mView;
     }
@@ -56,5 +77,10 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
     @Override
     public void gotTracks(List<Track> trackList) {
         mAdapter.addTracks(trackList);
+    }
+
+    @Override
+    public void setScrollableFalse() {
+        isScrollable=false;
     }
 }

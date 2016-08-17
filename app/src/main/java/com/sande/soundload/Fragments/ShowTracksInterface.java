@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface ShowTracksInterface {
     void gotTracks(List<Track> trackList);
+
+    void setScrollableFalse();
 }

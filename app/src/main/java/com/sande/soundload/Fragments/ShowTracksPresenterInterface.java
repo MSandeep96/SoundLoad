@@ -11,5 +11,7 @@ public interface ShowTracksPresenterInterface{
 
     public void getTracks();
 
-    public void gotTracks(List<Track> tracks);
+    void gotTracks(List<Track> tracks, String href);
+
+    void hasPaginated();
 }

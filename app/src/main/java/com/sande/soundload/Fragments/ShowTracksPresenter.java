@@ -12,6 +12,7 @@ import java.util.List;
 public class ShowTracksPresenter implements ShowTracksPresenterInterface {
     ShowTracksInterface showTracks;
     DataLayerInterface dataLayer;
+    String next_pagin;
 
     public ShowTracksPresenter(ShowTracksInterface mShow){
         showTracks=mShow;
@@ -25,7 +26,17 @@ public class ShowTracksPresenter implements ShowTracksPresenterInterface {
     }
 
     @Override
-    public void gotTracks(List<Track> tracks) {
+    public void gotTracks(List<Track> tracks, String href) {
         showTracks.gotTracks(tracks);
+        if(href==null){
+            showTracks.setScrollableFalse();
+        }else {
+            next_pagin = href;
+        }
+    }
+
+    @Override
+    public void hasPaginated() {
+        dataLayer.getPaginatedTracks(this,next_pagin);
     }
 }

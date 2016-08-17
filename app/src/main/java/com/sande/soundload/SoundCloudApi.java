@@ -1,5 +1,6 @@
 package com.sande.soundload;
 
+import com.sande.soundload.Pojo.LikesPaginated;
 import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.Pojo.User;
 
@@ -17,7 +18,10 @@ public interface SoundCloudApi {
     @GET("me")
     Call<User> getUser(@Query("oauth_token") String token);
 
-    @GET("me/favorites")
-    Call<List<Track>> getTracks(@Query("oauth_token") String token);
+    @GET("me/favorites?linked_partitioning=1&limit=35")
+    Call<LikesPaginated> getTracks(@Query("oauth_token") String token);
+
+    @GET("/{url}")
+    Call<LikesPaginated> getTracksPagin(@Path("url") String url);
 
 }

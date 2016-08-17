@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.sande.soundload.Fragments.ShowTracksPresenterInterface;
+import com.sande.soundload.Pojo.LikesPaginated;
 import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.Pojo.User;
 import com.sande.soundload.PrefsConstants;
@@ -60,15 +61,33 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
     public void getTracks(final ShowTracksPresenterInterface tracksPresenter) {
         if(soundCloudApi==null)
             initNetwork();
-        Call<List<Track>> getTracks=soundCloudApi.getTracks(Prefs.getString(ACCESSTOKEN,"0"));
-        getTracks.enqueue(new Callback<List<Track>>() {
+        Call<LikesPaginated> getTracks=soundCloudApi.getTracks(Prefs.getString(ACCESSTOKEN,"0"));
+        getTracks.enqueue(new Callback<LikesPaginated>() {
             @Override
-            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
-                tracksPresenter.gotTracks(response.body());
+            public void onResponse(Call<LikesPaginated> call, Response<LikesPaginated> response) {
+                tracksPresenter.gotTracks(response.body().getCollection(),response.body().getNext_href());
             }
 
             @Override
-            public void onFailure(Call<List<Track>> call, Throwable t) {
+            public void onFailure(Call<LikesPaginated> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getPaginatedTracks(final ShowTracksPresenterInterface tracksPresenter, String url) {
+        if(soundCloudApi==null)
+            initNetwork();
+        Call<LikesPaginated> getPaginTracks=soundCloudApi.getTracksPagin(url);
+        getPaginTracks.enqueue(new Callback<LikesPaginated>() {
+            @Override
+            public void onResponse(Call<LikesPaginated> call, Response<LikesPaginated> response) {
+                tracksPresenter.gotTracks(response.body().getCollection(),response.body().getNext_href());
+            }
+
+            @Override
+            public void onFailure(Call<LikesPaginated> call, Throwable t) {
 
             }
         });
