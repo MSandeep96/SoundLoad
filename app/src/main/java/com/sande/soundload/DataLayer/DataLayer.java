@@ -1,5 +1,9 @@
 package com.sande.soundload.DataLayer;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -19,9 +23,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class DataLayer implements DataLayerInterface,PrefsConstants{
 
-    private final SoundCloudApi soundCloudApi;
+    private SoundCloudApi soundCloudApi;
 
-    public DataLayer(){
+    private void initNetwork() {
         Gson gson=new GsonBuilder().create();
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl("http://api.soundcloud.com/")
@@ -32,6 +36,7 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
 
     @Override
     public void getAppUserDetails(final LoginPresenterInterface loginPresenter, String accessToken) {
+        initNetwork();
         Call<User> getUser=soundCloudApi.getUser(accessToken);
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -45,4 +50,37 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
             }
         });
     }
+
+    @Override
+    public boolean checkForActiveNetworkConnection(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mNetworkInfo=cm.getActiveNetworkInfo();
+
+        //no active network connections returns false
+        return ( mNetworkInfo != null && mNetworkInfo.isConnected() );
+
+    }
+
+
+
+
+
+    /*
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
+    */
 }

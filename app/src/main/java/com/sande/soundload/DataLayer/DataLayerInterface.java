@@ -1,5 +1,7 @@
 package com.sande.soundload.DataLayer;
 
+import android.content.Context;
+
 import com.sande.soundload.loginActivity_MVP.LoginPresenterInterface;
 
 /**
@@ -9,5 +11,6 @@ public interface DataLayerInterface {
 
     public void getAppUserDetails(LoginPresenterInterface loginPresenter, String accessToken);
 
+    public boolean checkForActiveNetworkConnection(Context context);
 
 }

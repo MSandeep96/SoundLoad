@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, ImpCo
     void makeUserLogin() {
         Uri urlReq = Uri.parse(CALL_STRING);
         Intent inte = new Intent(Intent.ACTION_VIEW, urlReq);
-        Intent browserChooser = Intent.createChooser(inte, "Choose a browser:");
+        Intent browserChooser = Intent.createChooser(inte, "Choose a browser (Not Soundcloud):");
         startActivity(browserChooser);
     }
 

@@ -6,4 +6,10 @@ package com.sande.soundload.mainActivity_MVP;
 public interface MainView {
 
     void navigateToLoginActivity();
+
+    void showNotLoggedInScreen();
+
+    void showTracks();
+
+    void showNoInternet();
 }
