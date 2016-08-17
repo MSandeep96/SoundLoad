@@ -3,6 +3,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity_MVP.LoginActivity">
+    android:background="@drawable/gradient_back"
+    tools:context=".loginActivity_MVP.LoginActivity">
 
+    <ImageButton
+        android:id="@+id/al_ib_close_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:contentDescription="@string/close_window"
+        android:padding="16dp"
+        android:src="@drawable/ic_close"
+        android:tint="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/al_iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/al_ib_close_activity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/Soundload_logo" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/al_iv_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp">
+
+        <ProgressBar
+            android:id="@+id/al_pb_login_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@android:color/white"
+            />
+
+        <Button
+            android:id="@+id/al_bt_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_back_2"
+            android:text="@string/login_al"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
 </RelativeLayout>

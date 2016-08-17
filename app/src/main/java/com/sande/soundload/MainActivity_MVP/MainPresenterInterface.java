@@ -1,4 +1,4 @@
-package com.sande.soundload.MainActivity_MVP;
+package com.sande.soundload.mainActivity_MVP;
 
 /**
  * Created by Sandeep on 14-08-2016.

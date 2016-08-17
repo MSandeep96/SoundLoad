@@ -1,4 +1,4 @@
-package com.sande.soundload.MainActivity_MVP;
+package com.sande.soundload.mainActivity_MVP;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.sande.soundload.PrefsConstants;
@@ -18,7 +18,7 @@ public class MainPresenter implements MainPresenterInterface,PrefsConstants {
     public void shouldMoveToLoginView() {
         if(Prefs.getBoolean(ISFIRSTTIME,true)){
             mMainView.navigateToLoginActivity();
-            Prefs.putBoolean(ISFIRSTTIME,false);
+            //Prefs.putBoolean(ISFIRSTTIME,false);
         }
     }
 }

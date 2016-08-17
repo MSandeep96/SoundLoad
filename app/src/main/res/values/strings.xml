@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SoundLoad</string>
     <string name="action_settings">Settings</string>
+    <string name="close_window">Close Window</string>
+    <string name="Soundload_logo">Soundload Logo</string>
+    <string name="login_al">Login</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.sande.soundload.MainActivity_MVP;
+package com.sande.soundload.mainActivity_MVP;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,13 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sande.soundload.ImpConstants;
 import com.sande.soundload.R;
-import com.sande.soundload.LoginActivity_MVP.LoginActivity;
+import com.sande.soundload.loginActivity_MVP.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainView{
+public class MainActivity extends AppCompatActivity implements MainView,ImpConstants{
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
