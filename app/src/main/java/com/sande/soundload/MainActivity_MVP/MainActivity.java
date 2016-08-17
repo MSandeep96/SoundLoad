@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
-import com.sande.soundload.Fragments.Fragment_MainActivity;
+import com.sande.soundload.Fragments.FragmentNoInternet;
+import com.sande.soundload.Fragments.FragmentNotLoggedIn;
+import com.sande.soundload.Fragments.FragmentShowTracks;
 import com.sande.soundload.ImpConstants;
 import com.sande.soundload.R;
 import com.sande.soundload.loginActivity_MVP.LoginActivity;
@@ -76,16 +79,22 @@ public class MainActivity extends AppCompatActivity implements MainView,ImpConst
 
     @Override
     public void showNotLoggedInScreen() {
-        Fragment_MainActivity.getFragment(NOT_LOGGED_IN);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.cm_fl_holder,new FragmentNotLoggedIn())
+                .commit();
     }
 
     @Override
     public void showTracks() {
-        Fragment_MainActivity.getFragment(SHOW_TRACKS);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.cm_fl_holder,new FragmentShowTracks())
+                .commit();
     }
 
     @Override
     public void showNoInternet() {
-        Fragment_MainActivity.getFragment(NO_INTERNET);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.cm_fl_holder,new FragmentNoInternet())
+                .commit();
     }
 }

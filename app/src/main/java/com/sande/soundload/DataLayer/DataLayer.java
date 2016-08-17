@@ -7,10 +7,14 @@ import android.net.NetworkInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.sande.soundload.Fragments.ShowTracksPresenterInterface;
+import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.Pojo.User;
 import com.sande.soundload.PrefsConstants;
 import com.sande.soundload.SoundCloudApi;
 import com.sande.soundload.loginActivity_MVP.LoginPresenterInterface;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +32,7 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
     private void initNetwork() {
         Gson gson=new GsonBuilder().create();
         Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl("http://api.soundcloud.com/")
+                .baseUrl("https://api.soundcloud.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         soundCloudApi=retrofit.create(SoundCloudApi.class);
@@ -36,7 +40,8 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
 
     @Override
     public void getAppUserDetails(final LoginPresenterInterface loginPresenter, String accessToken) {
-        initNetwork();
+        if(soundCloudApi==null)
+            initNetwork();
         Call<User> getUser=soundCloudApi.getUser(accessToken);
         getUser.enqueue(new Callback<User>() {
             @Override
@@ -52,6 +57,25 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
     }
 
     @Override
+    public void getTracks(final ShowTracksPresenterInterface tracksPresenter) {
+        if(soundCloudApi==null)
+            initNetwork();
+        Call<List<Track>> getTracks=soundCloudApi.getTracks(Prefs.getString(ACCESSTOKEN,"0"));
+        getTracks.enqueue(new Callback<List<Track>>() {
+            @Override
+            public void onResponse(Call<List<Track>> call, Response<List<Track>> response) {
+                tracksPresenter.gotTracks(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Track>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    @Override
     public boolean checkForActiveNetworkConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mNetworkInfo=cm.getActiveNetworkInfo();
@@ -60,6 +84,8 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
         return ( mNetworkInfo != null && mNetworkInfo.isConnected() );
 
     }
+
+
 
 
 

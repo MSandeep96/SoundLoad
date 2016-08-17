@@ -2,6 +2,8 @@ package com.sande.soundload.DataLayer;
 
 import android.content.Context;
 
+import com.sande.soundload.Fragments.ShowTracksPresenterInterface;
+import com.sande.soundload.loginActivity_MVP.LoginPresenter;
 import com.sande.soundload.loginActivity_MVP.LoginPresenterInterface;
 
 /**
@@ -13,4 +15,5 @@ public interface DataLayerInterface {
 
     public boolean checkForActiveNetworkConnection(Context context);
 
+    public void getTracks(ShowTracksPresenterInterface tracksPresenter);
 }

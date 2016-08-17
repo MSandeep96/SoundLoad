@@ -22,4 +22,16 @@ public class Track {
     public String toString() {
         return title;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArtwork_url() {
+        return artwork_url;
+    }
+
+    public String getArtist() {
+        return user.getUsername();
+    }
 }

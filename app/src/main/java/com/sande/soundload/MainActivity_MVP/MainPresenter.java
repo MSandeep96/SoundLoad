@@ -34,7 +34,7 @@ public class MainPresenter implements MainPresenterInterface,PrefsConstants {
     public void chooseView(Context context) {
         if(dataLayer.checkForActiveNetworkConnection(context)){
             //internet exists
-            if(Prefs.getBoolean(USER_LOGGED_IN,false)){
+            if(!Prefs.getBoolean(USER_LOGGED_IN,false)){
                 mMainView.showNotLoggedInScreen();
             }else{
                 mMainView.showTracks();

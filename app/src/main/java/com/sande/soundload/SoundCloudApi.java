@@ -8,15 +8,16 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Sandeep on 17-08-2016.
  */
 public interface SoundCloudApi {
-    @GET("me/oauth_token={token}")
-    Call<User> getUser(@Path("token") String token);
+    @GET("me")
+    Call<User> getUser(@Query("oauth_token") String token);
 
-    @GET("me/{id}/favorites")
-    Call<List<Track>> getTracks(@Path("id") long id);
+    @GET("me/favorites")
+    Call<List<Track>> getTracks(@Query("oauth_token") String token);
 
 }

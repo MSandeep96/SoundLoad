@@ -24,7 +24,7 @@ public class LoginPresenter implements LoginPresenterInterface,PrefsConstants {
     public void checkForBroadcast(Uri data){
         if(data!=null&& data.getScheme().equals("soundload")&&data.getFragment()!=null){
             loginView.showLoading();
-            String accessToken=data.getFragment().replaceFirst("access_token","");
+            String accessToken=data.getFragment().replaceFirst("access_token=","");
             int pos=accessToken.indexOf("&");
             accessToken=accessToken.substring(0,pos);
             Prefs.putString(ACCESSTOKEN,accessToken);

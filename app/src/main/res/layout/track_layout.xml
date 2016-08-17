@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:padding="16dp">
+    <ImageView
+        android:id="@+id/tl_iv_trackCover"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/track_cover"
+        android:layout_marginRight="16dp"
+        />
+
+    <TextView
+        android:id="@+id/tl_tv_artistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tl_iv_trackCover"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        android:id="@+id/tl_tv_trackName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tl_tv_artistName"
+        android:layout_alignLeft="@+id/tl_tv_artistName"
+        android:maxLines="1"
+        android:textSize="24sp"
+        android:ellipsize="end"/>
+
+</RelativeLayout>
