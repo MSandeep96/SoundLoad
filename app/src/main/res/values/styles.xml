@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TrackDetails">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/tertiary_text_light</item>
+    </style>
+    
+    <style name="TrackName">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/secondary_text_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>

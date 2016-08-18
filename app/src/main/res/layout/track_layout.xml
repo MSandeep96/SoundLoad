@@ -2,34 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:padding="16dp">
+    android:layout_height="@dimen/track_item_height"
+    android:padding="@dimen/track_item_padding">
     <ImageView
         android:id="@+id/tl_iv_trackCover"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/track_cover_width"
         android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/track_item_padding"
+        android:background="@drawable/cover_border"
         android:contentDescription="@string/track_cover"
-        android:layout_marginRight="16dp"
         />
 
-    <TextView
-        android:id="@+id/tl_tv_artistName"
+    <LinearLayout
+        android:id="@+id/tl_ll_name_duration"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tl_iv_trackCover"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="16sp"
-        />
+        android:layout_alignParentRight="true"
+        style="@style/TrackDetails"
+        >
+        <TextView
+            android:id="@+id/tl_tv_artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:layout_weight="1"
+
+            />
+        <TextView
+            android:id="@+id/tl_tv_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tl_tv_trackName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tl_tv_artistName"
-        android:layout_alignLeft="@+id/tl_tv_artistName"
-        android:maxLines="1"
-        android:textSize="24sp"
-        android:ellipsize="end"/>
+        android:layout_below="@+id/tl_ll_name_duration"
+        android:layout_alignLeft="@+id/tl_ll_name_duration"
+        android:maxLines="2"
+        android:ellipsize="end"
+        style="@style/TrackName"/>
 
 </RelativeLayout>

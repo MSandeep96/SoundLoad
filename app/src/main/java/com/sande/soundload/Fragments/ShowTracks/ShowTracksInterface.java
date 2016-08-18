@@ -1,4 +1,4 @@
-package com.sande.soundload.Fragments;
+package com.sande.soundload.Fragments.ShowTracks;
 
 import com.sande.soundload.Pojo.Track;
 
@@ -11,4 +11,6 @@ public interface ShowTracksInterface {
     void gotTracks(List<Track> trackList);
 
     void setScrollableFalse();
+
+    void setLoadingFalse();
 }

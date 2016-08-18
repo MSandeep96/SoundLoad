@@ -1,4 +1,4 @@
-package com.sande.soundload.Fragments;
+package com.sande.soundload.Fragments.ShowTracks;
 
 import com.sande.soundload.DataLayer.DataLayer;
 import com.sande.soundload.DataLayer.DataLayerInterface;
@@ -28,6 +28,7 @@ public class ShowTracksPresenter implements ShowTracksPresenterInterface {
     @Override
     public void gotTracks(List<Track> tracks, String href) {
         showTracks.gotTracks(tracks);
+        showTracks.setLoadingFalse();
         if(href==null){
             showTracks.setScrollableFalse();
         }else {

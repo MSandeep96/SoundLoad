@@ -2,9 +2,7 @@ package com.sande.soundload.DataLayer;
 
 import android.content.Context;
 
-import com.sande.soundload.Fragments.ShowTracksInterface;
-import com.sande.soundload.Fragments.ShowTracksPresenterInterface;
-import com.sande.soundload.loginActivity_MVP.LoginPresenter;
+import com.sande.soundload.Fragments.ShowTracks.ShowTracksPresenterInterface;
 import com.sande.soundload.loginActivity_MVP.LoginPresenterInterface;
 
 /**

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.sande.soundload.DataLayer.DataLayer;
 import com.sande.soundload.DataLayer.DataLayerInterface;
+import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.PrefsConstants;
 
 /**
@@ -14,6 +15,7 @@ public class MainPresenter implements MainPresenterInterface,PrefsConstants {
 
     MainView mMainView;
     DataLayerInterface dataLayer;
+    String download_url;
 
 
     public MainPresenter(MainView mainView){
@@ -43,5 +45,17 @@ public class MainPresenter implements MainPresenterInterface,PrefsConstants {
             //no internet
             mMainView.showNoInternet();
         }
+    }
+
+    @Override
+    public void itemClicked(String downLink) {
+        download_url=downLink;
+    }
+
+    @Override
+    public void startDownload() {
+        if(download_url==null)
+            return;
+        // TODO: 19-08-2016 cue download from data layer or here
     }
 }

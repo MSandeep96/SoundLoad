@@ -7,4 +7,5 @@
 
     <color name="SouncloudLogoLighterColor">#FF7F00</color>
     <color name="SoundcloudLogoDarkerColor">#FF3300</color>
+    <color name="cover_border">#d3d3d3</color>
 </resources>

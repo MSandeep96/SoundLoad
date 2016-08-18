@@ -1,4 +1,4 @@
-package com.sande.soundload.Fragments;
+package com.sande.soundload.Fragments.ShowTracks;
 
 
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.sande.soundload.Adapters.TracksAdapter;
 import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.R;
+import com.sande.soundload.RecyclerViewDecoration.TracksItemDecoration;
+import com.sande.soundload.TrackItemClicked;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
+public class FragmentShowTracks extends Fragment implements ShowTracksInterface {
 
     @BindView(R.id.fst_rv_tracks)
     RecyclerView recyclerView;
@@ -30,6 +32,7 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
     private ShowTracksPresenterInterface showTrackPresenter;
     private boolean isScrollable=true;
     private boolean loading;
+    private TrackItemClicked trackItemClickDelegater;
 
     public FragmentShowTracks() {
         // Required empty public constructor
@@ -46,11 +49,17 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View mView= inflater.inflate(R.layout.frag_show_tracks, container, false);
-        ButterKnife.bind(mView);
+        ButterKnife.bind(this,mView);
+
         mAdapter=new TracksAdapter(getContext());
         final LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+
+
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new TracksItemDecoration(getContext()));
+
+        //Handles pagination and makes presenter make calls
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -70,7 +79,10 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
                 }
             }
         });
+
+
         showTrackPresenter.getTracks();
+
         return mView;
     }
 
@@ -81,6 +93,14 @@ public class FragmentShowTracks extends Fragment implements ShowTracksInterface{
 
     @Override
     public void setScrollableFalse() {
+        //When no more tracks exist
         isScrollable=false;
+        mAdapter.setPaginated(false);
+    }
+
+    @Override
+    public void setLoadingFalse() {
+        //when network call returns
+        loading=false;
     }
 }

@@ -3,19 +3,17 @@ package com.sande.soundload.DataLayer;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.sande.soundload.Fragments.ShowTracksPresenterInterface;
+import com.sande.soundload.Fragments.ShowTracks.ShowTracksPresenterInterface;
 import com.sande.soundload.Pojo.LikesPaginated;
-import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.Pojo.User;
 import com.sande.soundload.PrefsConstants;
 import com.sande.soundload.SoundCloudApi;
 import com.sande.soundload.loginActivity_MVP.LoginPresenterInterface;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +59,7 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
     public void getTracks(final ShowTracksPresenterInterface tracksPresenter) {
         if(soundCloudApi==null)
             initNetwork();
-        Call<LikesPaginated> getTracks=soundCloudApi.getTracks(Prefs.getString(ACCESSTOKEN,"0"));
+        Call<LikesPaginated> getTracks=soundCloudApi.getTracks(Prefs.getLong(USER_ID,0));
         getTracks.enqueue(new Callback<LikesPaginated>() {
             @Override
             public void onResponse(Call<LikesPaginated> call, Response<LikesPaginated> response) {
