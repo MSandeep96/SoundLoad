@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="@dimen/track_item_height"
-    android:padding="@dimen/track_item_padding">
+    android:padding="@dimen/track_item_padding"
+    android:background="?attr/selectableItemBackground">
     <ImageView
         android:id="@+id/tl_iv_trackCover"
         android:layout_width="@dimen/track_cover_width"

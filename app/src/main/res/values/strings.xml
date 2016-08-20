@@ -8,4 +8,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="track_cover">Track Cover</string>
+    <string name="metered_connection">Metered Connection</string>
+    <string name="metered_conn_prompt">Are you sure you wanna download the song on a metered connection?</string>
+    <string name="ext_stor_not_writable">External Storage not writable</string>
+    <string name="permission_req">Permission Required</string>
+    <string name="permission_req_reason">Permission is required to download songs to your device.</string>
 </resources>

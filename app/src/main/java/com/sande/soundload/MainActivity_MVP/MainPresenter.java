@@ -1,6 +1,7 @@
 package com.sande.soundload.mainActivity_MVP;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.sande.soundload.DataLayer.DataLayer;
@@ -15,7 +16,7 @@ public class MainPresenter implements MainPresenterInterface,PrefsConstants {
 
     MainView mMainView;
     DataLayerInterface dataLayer;
-    String download_url;
+    Track toDownload;
 
 
     public MainPresenter(MainView mainView){
@@ -48,14 +49,30 @@ public class MainPresenter implements MainPresenterInterface,PrefsConstants {
     }
 
     @Override
-    public void itemClicked(String downLink) {
-        download_url=downLink;
+    public void itemClicked(Track downLink) {
+        toDownload=downLink;
     }
 
     @Override
-    public void startDownload() {
-        if(download_url==null)
+    public void checkDownload(Context context) {
+        if(toDownload==null)
             return;
         // TODO: 19-08-2016 cue download from data layer or here
+        if(dataLayer.checkIfConnectionIsMetered(context)){
+            mMainView.showAlertDialog();
+        }else{
+            startDownload(context);
+        }
     }
+
+    @Override
+    public void startDownload(Context context) {
+        dataLayer.startDownload(toDownload,context,this);
+    }
+
+    @Override
+    public void notWritable() {
+        mMainView.showNotWritable();
+    }
+
 }

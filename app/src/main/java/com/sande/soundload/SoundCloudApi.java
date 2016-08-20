@@ -4,8 +4,6 @@ import com.sande.soundload.Pojo.LikesPaginated;
 import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.Pojo.User;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -24,5 +22,8 @@ public interface SoundCloudApi {
 
     @GET
     Call<LikesPaginated> getTracksPagin(@Url String url);
+
+    @GET("/resolve?client_id=7e02806c3fc8b37e671916b65262e6c5")
+    Call<Track> getTheSharedTrack(@Query("url") String url);
 
 }

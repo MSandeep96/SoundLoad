@@ -1,6 +1,7 @@
 package com.sande.soundload.mainActivity_MVP;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.sande.soundload.Pojo.Track;
 
@@ -13,7 +14,11 @@ public interface MainPresenterInterface {
 
     void chooseView(Context context);
 
-    void itemClicked(String downLink);
+    void itemClicked(Track downLink);
 
-    void startDownload();
+    void checkDownload(Context context);
+
+    void startDownload(Context context);
+
+    void notWritable();
 }

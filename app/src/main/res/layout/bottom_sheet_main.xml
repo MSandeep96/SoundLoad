@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bsm_rl_root"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@android:color/white"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
@@ -18,27 +18,32 @@
         android:background="@drawable/cover_border"
         android:layout_marginRight="@dimen/bottoms_standard_padding"
         android:layout_marginBottom="@dimen/bottoms_standard_padding"
-        />
+        android:contentDescription="@string/track_cover" />
 
     <LinearLayout
         android:id="@+id/bsm_ll_dur_down"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/bsm_iv_cover"
         android:orientation="horizontal"
         >
         <TextView
             android:id="@+id/bsm_tv_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_toRightOf="@+id/bsm_iv_cover"/>
 
-        <Button
+        <ImageButton
+            android:padding="5dp"
             android:id="@+id/bsm_btn_cueDown"
+            android:src="@drawable/ic_file_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Download" />
+            android:background="@drawable/download_btn_back"/>
 
     </LinearLayout>
 
@@ -48,12 +53,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/bsm_iv_cover"
-        android:layout_alignBottom="@id/bsm_iv_cover"/>
+        android:layout_alignBottom="@id/bsm_iv_cover"
+        android:textSize="22sp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        />
 
     <TextView
         android:id="@+id/bsm_tv_trackName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bsm_iv_cover"
-        style="@style/TrackName"/>
+        android:textSize="24sp"/>
 </RelativeLayout>

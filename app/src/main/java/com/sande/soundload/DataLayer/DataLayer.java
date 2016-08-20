@@ -1,19 +1,26 @@
 package com.sande.soundload.DataLayer;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
+import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.sande.soundload.DownloadShareActivity.DownloadSharePresenterInterface;
 import com.sande.soundload.Fragments.ShowTracks.ShowTracksPresenterInterface;
+import com.sande.soundload.ImpConstants;
 import com.sande.soundload.Pojo.LikesPaginated;
+import com.sande.soundload.Pojo.Track;
 import com.sande.soundload.Pojo.User;
 import com.sande.soundload.PrefsConstants;
 import com.sande.soundload.SoundCloudApi;
 import com.sande.soundload.loginActivity_MVP.LoginPresenterInterface;
+import com.sande.soundload.mainActivity_MVP.MainPresenterInterface;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,9 +31,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Sandeep on 17-08-2016.
  */
-public class DataLayer implements DataLayerInterface,PrefsConstants{
+public class DataLayer implements DataLayerInterface,PrefsConstants,ImpConstants{
 
     private SoundCloudApi soundCloudApi;
+    HashMap<Long,Track> downloadRefs=new HashMap<>();
 
     private void initNetwork() {
         Gson gson=new GsonBuilder().create();
@@ -102,28 +110,86 @@ public class DataLayer implements DataLayerInterface,PrefsConstants{
 
     }
 
+    @Override
+    public boolean checkIfConnectionIsMetered(Context context){
+        ConnectivityManager cm=(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.isActiveNetworkMetered();
+    }
 
+    @Override
+    public void startDownload(Track trackObject, Context context, MainPresenterInterface presenterInterface) {
+        String downloadURL=trackObject.getDownloadLink()+"?client_id="+CLIENT_ID;
+        if(!StorageManager.isWritable()){
+            presenterInterface.notWritable();
+            return;
+        }
+        Uri downUri=Uri.parse(downloadURL);
+        DownloadManager.Request mReq=new DownloadManager.Request(downUri);
+        mReq.setDestinationUri(StorageManager.getDestnationUri(trackObject));
+        //Uri albumArt=Uri.parse(trackObject.getArtwork_url());
+        DownloadManager downloadManager=(DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadRefs.put(downloadManager.enqueue(mReq),trackObject);
+    }
 
+    @Override
+    public void getSharedTrack(String url, final DownloadSharePresenterInterface downloadSharePresenterInterface) {
+        if(soundCloudApi==null)
+            initNetwork();
+        Call<Track> getSharedTrack=soundCloudApi.getTheSharedTrack(url);
+        getSharedTrack.enqueue(new Callback<Track>() {
+            @Override
+            public void onResponse(Call<Track> call, Response<Track> response) {
+                downloadSharePresenterInterface.gotTrack(response.body());
+            }
 
+            @Override
+            public void onFailure(Call<Track> call, Throwable t) {
 
+            }
+        });
+    }
+
+    @Override
+    public void startSharedTrackDownload(Track track, Context context,DownloadSharePresenterInterface downloadSharePresenterInterface) {
+        String downloadURL=track.getDownloadLink()+"?client_id="+CLIENT_ID;
+        if(!StorageManager.isWritable()){
+            downloadSharePresenterInterface.notWritable();
+            return;
+        }
+        Uri downUri=Uri.parse(downloadURL);
+        DownloadManager.Request mReq=new DownloadManager.Request(downUri);
+        mReq.setDestinationUri(StorageManager.getDestnationUri(track));
+        //Uri albumArt=Uri.parse(trackObject.getArtwork_url());
+        DownloadManager downloadManager=(DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadRefs.put(downloadManager.enqueue(mReq),track);
+    }
 
 
     /*
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
+    @Override
+    public void downloaded(Context context, Intent intent) {
+        long refID=intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID,-1);
+        if(downloadRefs.containsKey(refID)){
+            DownloadManager downloadManager=(DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
+            Uri musicFile=downloadManager.getUriForDownloadedFile(refID);
+            File mFile=new File(musicFile.getPath());
+            try {
+                Mp3File songFile=new Mp3File(mFile.getAbsolutePath());
+                ID3v24Tag tag=new ID3v24Tag();
+                songFile.setId3v2Tag(tag);
+                Track track=downloadRefs.get(refID);
+                tag.setArtist(track.getTrackArtist());
+                tag.setTitle(track.getTrackTitle());
+                tag.setPublisher(track.getArtist());
+                tag.setComment("Downloaded via Soundload");
+                tag.setAlbum("SoundcloudSongs");
+                songFile.save(track.getTrackTitle()+".mp3");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return haveConnectedWifi || haveConnectedMobile;
     }
     */
+
+
 }

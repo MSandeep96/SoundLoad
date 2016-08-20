@@ -12,4 +12,8 @@ public interface MainView {
     void showTracks();
 
     void showNoInternet();
+
+    void showAlertDialog();
+
+    void showNotWritable();
 }
